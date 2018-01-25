@@ -1,0 +1,52 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="mat-toolbar-row">
+    <button mat-icon-button (click)="sidenav.toggle()" title="Side Navigation">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span id="navButtonSpacer"></span>
+    <span>Relational Image Map</span>
+
+    <span class="search-space"></span>
+    <button mat-icon-button (click)="searchTerm()">
+      <mat-icon>search</mat-icon>
+    </button>
+    <mat-input-container class="search-bar" floatPlaceholder="never" hideRequiredMarker="true">
+      <input matInput
+             id="search-input"
+             type="text"
+             placeholder="Search"
+             (submit)="searchTerm()"
+             required>
+    </mat-input-container>
+    <button mat-icon-button (click)="searchTerm()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <span class="search-space"></span>
+
+    <button mat-icon-button [matMenuTriggerFor]="filterRef">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+    <mat-menu #filterRef="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item *ngFor="let item of filters">
+        <mat-checkbox [checked]="item.checked">{{item.name}}</mat-checkbox>
+      </button>
+    </mat-menu>
+
+    <button mat-icon-button [matMenuTriggerFor]="optionsRef">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #optionsRef="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item *ngFor="let item of options">
+        {{item.name}}
+      </button>
+    </mat-menu>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container class="side_nav">
+  <mat-sidenav #sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

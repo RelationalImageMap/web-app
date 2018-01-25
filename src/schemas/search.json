@@ -1,0 +1,61 @@
+{
+  "id": "",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "description": "Search query",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string"
+    },
+    "options": {
+      "type": "object",
+      "properties": {
+        "privateSearch": {
+          "type": "boolean"
+        },
+        "searchLoc": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number"
+            },
+            "long": {
+              "type": "number"
+            },
+            "radius": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "lat",
+            "long",
+            "radius"
+          ]
+        },
+        "searchTime": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "integer"
+            },
+            "end": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "start"
+          ]
+        }
+      },
+      "required": [
+        "privateSearch",
+        "searchLoc",
+        "searchTime"
+      ]
+    }
+  },
+  "required": [
+    "query",
+    "options"
+  ]
+}
