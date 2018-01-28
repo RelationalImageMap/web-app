@@ -4,6 +4,8 @@ import {Search, Convert, Options, SearchLOC, SearchTime} from '../search';
 import {timestamp} from 'rxjs/operators';
 import searchToJson = Convert.searchToJson;
 
+const SMALL_WIDTH_BREAKPOINT = 720;
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -11,13 +13,15 @@ import searchToJson = Convert.searchToJson;
 })
 export class DashboardComponent implements OnInit {
 
+  private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
+
   @Input() search: Search;
   @ViewChild(MatMenuTrigger) filterTrigger: MatMenuTrigger;
 
   filters: FilterItem[] = [
-    {name: 'Facebook', checked: true},
-    {name: 'Instagram', checked: true},
-    {name: 'Twitter', checked: true}
+    {name: 'Facebook', checked: true, icon: 'fa-facebook'},
+    {name: 'Instagram', checked: true, icon: 'fa-instagram'},
+    {name: 'Twitter', checked: true, icon: 'fa-twitter'}
   ];
 
   options: OptionItem[] = [];
@@ -35,11 +39,16 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  isScreenSmall(): boolean {
+    return this.mediaMatcher.matches;
+  }
+
 }
 
 interface FilterItem {
   name: string;
   checked: boolean;
+  icon: string;
 }
 
 interface OptionItem {

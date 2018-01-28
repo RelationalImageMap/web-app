@@ -1,5 +1,5 @@
 #navButtonSpacer {
-  width: 0.5em;
+  width: 0.75em;
 }
 
 .search-bar {
@@ -20,5 +20,12 @@
 
 mat-sidenav-container {
   flex: 1 1 auto;
+  height: 93.7vh;
+  flex-direction: column;
+  display: flex;
+  overflow-y: auto;
 }
 
+#nav {
+
+}

@@ -27,8 +27,10 @@
       <mat-icon>filter_list</mat-icon>
     </button>
     <mat-menu #filterRef="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item *ngFor="let item of filters">
-        <mat-checkbox [checked]="item.checked">{{item.name}}</mat-checkbox>
+      <button mat-menu-item *ngFor="let filter of filters">
+        <mat-checkbox [checked]="filter.checked" [indeterminate]="">
+          {{ filter.name }}
+        </mat-checkbox>
       </button>
     </mat-menu>
 
@@ -36,17 +38,26 @@
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #optionsRef="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item *ngFor="let item of options">
-        {{item.name}}
+      <button mat-menu-item *ngFor="let option of options">
+        {{ option.name }}
       </button>
     </mat-menu>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container class="side_nav">
-  <mat-sidenav #sidenav>
+  <mat-sidenav #sidenav [opened]="!isScreenSmall()" [mode]="isScreenSmall() ? 'over' : 'side'">
+    <mat-nav-list>
+      <mat-divider></mat-divider>
+      <h3 mat-subheader>Connect</h3>
+      <mat-list-item *ngFor="let filter of filters">
+        <i matListAvatar class="fab {{ filter.icon }} fa-2x"></i><span mat-line>{{ filter.name }}</span>
+      </mat-list-item>
+    </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
+    <!-- Placeholder -->
+    <p>Map Placeholder</p>
   </mat-sidenav-content>
 </mat-sidenav-container>
