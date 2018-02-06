@@ -7,7 +7,7 @@
     <span>Relational Image Map</span>
 
     <span class="search-space"></span>
-    <button mat-icon-button (click)="searchTerm()">
+    <button mat-icon-button (click)="searchTerm()" matTooltip="Search">
       <mat-icon>search</mat-icon>
     </button>
     <mat-input-container class="search-bar" floatPlaceholder="never" hideRequiredMarker="true">
@@ -18,46 +18,45 @@
              (submit)="searchTerm()"
              required>
     </mat-input-container>
-    <button mat-icon-button (click)="searchTerm()">
+    <button mat-icon-button (click)="searchTerm()" matTooltip="Clear search">
       <mat-icon>close</mat-icon>
     </button>
     <span class="search-space"></span>
-
-    <button mat-icon-button [matMenuTriggerFor]="filterRef">
-      <mat-icon>filter_list</mat-icon>
-    </button>
-    <mat-menu #filterRef="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item *ngFor="let filter of filters">
-        <mat-checkbox [checked]="filter.checked" [indeterminate]="">
-          {{ filter.name }}
-        </mat-checkbox>
-      </button>
-    </mat-menu>
-
-    <button mat-icon-button [matMenuTriggerFor]="optionsRef">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    <mat-menu #optionsRef="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item *ngFor="let option of options">
-        {{ option.name }}
-      </button>
-    </mat-menu>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container class="side_nav">
   <mat-sidenav #sidenav [opened]="!isScreenSmall()" [mode]="isScreenSmall() ? 'over' : 'side'">
+    <mat-list>
+      <mat-divider></mat-divider>
+      <h3 mat-subheader matTooltip="Configure advanced search options" [matTooltipPosition]="navTooltipPosition">
+        Search Options
+      </h3>
+      <a mat-list-item *ngFor="let option of options" href="/#{{ option.name }}">
+        {{ option.name }}
+      </a>
+    </mat-list>
+    <mat-selection-list>
+      <mat-divider></mat-divider>
+      <h3 mat-subheader matTooltip="Select Filters" [matTooltipPosition]="navTooltipPosition">
+        Filters
+      </h3>
+      <mat-list-option *ngFor="let filter of filters" [selected]="filter.checked">
+        <span mat-line>{{ filter.name }}</span>
+      </mat-list-option>
+    </mat-selection-list>
     <mat-nav-list>
       <mat-divider></mat-divider>
-      <h3 mat-subheader>Connect</h3>
+      <h3 mat-subheader matTooltip="Link accounts to view private photos" [matTooltipPosition]="navTooltipPosition">
+        Connect
+      </h3>
       <mat-list-item *ngFor="let filter of filters">
-        <i matListAvatar class="fab {{ filter.icon }} fa-2x"></i><span mat-line>{{ filter.name }}</span>
+        <i matListAvatar class="fab {{ filter.icon }} fa-2x"></i><a mat-line>{{ filter.name }}</a>
       </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <!-- Placeholder -->
-    <p>Map Placeholder</p>
+    <app-rim></app-rim>
   </mat-sidenav-content>
 </mat-sidenav-container>

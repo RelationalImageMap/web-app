@@ -29,3 +29,15 @@ mat-sidenav-container {
 #nav {
 
 }
+
+a {
+  text-decoration: none;
+}
+
+.mat-list-item:hover {
+  background-color: lightgrey;
+}
+
+.mat-list-item:active {
+  background-color: slategray;
+}

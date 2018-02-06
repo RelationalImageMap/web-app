@@ -14,6 +14,7 @@ const SMALL_WIDTH_BREAKPOINT = 720;
 export class DashboardComponent implements OnInit {
 
   private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
+  navTooltipPosition = 'right';
 
   @Input() search: Search;
   @ViewChild(MatMenuTrigger) filterTrigger: MatMenuTrigger;
