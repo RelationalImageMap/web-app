@@ -22,7 +22,7 @@
         "styles.css"
       ],
       "scripts": [
-        "./assets/js/http_openlayers.org_en_v4.6.4_build_ol.js"
+        "./assets/js/ol-custom.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
