@@ -1,21 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import 'ol/ol.css';
-import Map from 'ol/map';
-// import View from 'ol/view';
-// import TileLayer from 'ol/layer/tile';
-// import XYZSource from 'ol/source/xyz';
-import Tile from 'ol/source/tile';
-import Point from 'ol/geom/point';
-import Feature from 'ol/feature';
-import Vector from 'ol/source/vector';
-import {Vector as VectorLayer} from 'ol/layer/vector';
-// import proj from 'ol/proj';
+import * as ol from 'openlayers';
 
-declare var ol: any;
-let map: Map;
-const iconFeature: Feature[] = [];
-let vectorSource: Vector;
-let vectorLayer: VectorLayer;
+let map: ol.Map;
+const iconFeature: ol.Feature[] = [];
+let vectorSource: ol.source.Vector;
+let vectorLayer: ol.layer.Vector;
 const coord: Number[] = [0, 0];
 
 @Component({
@@ -27,9 +16,9 @@ const coord: Number[] = [0, 0];
 export class RimComponent implements OnInit {
 
 
-  bing: Tile;
-  osm: Tile = new ol.source.OSM();
-  mapTile: Tile;
+  bing: ol.source.Tile;
+  osm: ol.source.Tile = new ol.source.OSM();
+  mapTile: ol.source.Tile;
   mapType = 'AerialWithLabels';
 
   constructor() {
@@ -39,9 +28,9 @@ export class RimComponent implements OnInit {
     const tCoord = ol.proj.fromLonLat([pos.coords.longitude, pos.coords.latitude]);
     coord[0] = tCoord[0];
     coord[1] = tCoord[1];
-    map.getView().animate({center: coord, zoom: 17});
-    vectorSource.addFeature(new Feature({
-      geometry: new Point(coord)
+    map.getView().animate({center: tCoord, zoom: 19});
+    vectorSource.addFeature(new ol.Feature({
+      geometry: new ol.geom.Point(tCoord)
     }));
   }
 
@@ -91,7 +80,7 @@ export class RimComponent implements OnInit {
         vectorLayer
       ],
       view: new ol.View({
-        center: new ol.proj.fromLonLat([-98.583333, 39.833333]), // Continental US geographical center
+        center: ol.proj.fromLonLat([-98.583333, 39.833333]), // Continental US geographical center
         zoom: 5,
         minZoom: 2,
         maxZoom: 20
