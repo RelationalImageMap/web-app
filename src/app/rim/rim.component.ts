@@ -39,13 +39,13 @@ export class RimComponent implements OnInit {
     navigator.geolocation.getCurrentPosition(RimComponent.displayCoord);
 
     const iconStyle = new ol.style.Style({
-      image: new ol.style.Icon(({
+      image: new ol.style.Icon({
         size: [75, 130],
         offset: [30, 0],
         opacity: 1,
         scale: 0.3,
         src: '/assets/map-marker.png'
-      }))
+      })
     });
 
     vectorSource = new ol.source.Vector({
