@@ -5,7 +5,17 @@ let map: ol.Map;
 const iconFeature: ol.Feature[] = [];
 let vectorSource: ol.source.Vector;
 let vectorLayer: ol.layer.Vector;
-const coord: Number[] = [0, 0];
+const coord: number[] = [0, 0];
+const feat = new ol.Feature();
+const accFeat = new ol.Feature();
+const view = new ol.View({
+  center: ol.proj.fromLonLat([-98.583333, 39.833333]), // Continental US geographical center
+  zoom: 5,
+  minZoom: 2,
+  maxZoom: 20
+});
+const geo = new ol.Geolocation({projection: view.getProjection()});
+
 
 @Component({
   selector: 'app-rim',
@@ -24,19 +34,35 @@ export class RimComponent implements OnInit {
   constructor() {
   }
 
-  static displayCoord(pos) {
-    const tCoord = ol.proj.fromLonLat([pos.coords.longitude, pos.coords.latitude]);
+  static displayCoord() {
+    const tCoord = geo.getPosition();
     coord[0] = tCoord[0];
     coord[1] = tCoord[1];
     map.getView().animate({center: tCoord, zoom: 19});
-    vectorSource.addFeature(new ol.Feature({
-      geometry: new ol.geom.Point(tCoord)
-    }));
+    feat.setId(1);
+    feat.setGeometry(new ol.geom.Point(tCoord));
   }
 
   ngOnInit() {
 
-    navigator.geolocation.getCurrentPosition(RimComponent.displayCoord);
+    feat.setStyle(new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 6,
+        fill: new ol.style.Fill({
+          color: '#3399CC'
+        }),
+        stroke: new ol.style.Stroke({
+          color: '#fff',
+          width: 2
+        })
+      })
+    }));
+
+    geo.setTracking(true);
+    geo.on('change', RimComponent.displayCoord);
+    geo.on('change:accuracyGeometry', function() {
+      accFeat.setGeometry(geo.getAccuracyGeometry());
+    });
 
     const iconStyle = new ol.style.Style({
       image: new ol.style.Icon({
@@ -79,13 +105,11 @@ export class RimComponent implements OnInit {
         }),
         vectorLayer
       ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([-98.583333, 39.833333]), // Continental US geographical center
-        zoom: 5,
-        minZoom: 2,
-        maxZoom: 20
-      })
+      view: view
     });
+
+    vectorSource.addFeature(feat);
+    vectorSource.addFeature(accFeat);
   }
 }
 
