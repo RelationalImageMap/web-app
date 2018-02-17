@@ -1,6 +1,6 @@
 {
   "name": "web-app",
-  "version": "0.0.1-prealpha.0",
+  "version": "0.0.1-prealpha.1",
   "license": "MIT",
   "scripts": {
     "prod": "ng build --prod --output-path=../public",
