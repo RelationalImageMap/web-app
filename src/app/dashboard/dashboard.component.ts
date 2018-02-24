@@ -2,8 +2,8 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from '@angular/material';
 import {Search, Convert, Options, SearchLOC, SearchTime} from '../search';
 import {timestamp} from 'rxjs/operators';
-import { AuthService } from '../shared/auth.service';
-import { MapDataService } from '../shared/map-data.service';
+import { AuthService } from '@core/auth.service';
+import { MapDataService } from '@core/map-data.service';
 import searchToJson = Convert.searchToJson;
 
 const SMALL_WIDTH_BREAKPOINT = 720;

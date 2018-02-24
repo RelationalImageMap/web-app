@@ -11,9 +11,8 @@ import { RimComponent } from './rim/rim.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { environment } from '../environments/environment';
-import { MapDataService } from './shared/map-data.service';
-import { AuthService } from './shared/auth.service';
+import { environment } from '@environments/environment';
+import { CoreModule } from '@core/core.module';
 
 
 @NgModule({
@@ -27,9 +26,9 @@ import { AuthService } from './shared/auth.service';
     MaterialDesignModule,
     AngularFireModule.initializeApp(environment.firebase, 'test_proj'),
     AngularFirestoreModule.enablePersistence(),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    CoreModule
   ],
-  providers: [MapDataService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

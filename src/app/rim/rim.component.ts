@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import * as ol from 'openlayers';
-import {MapData, MapDataService} from '../shared/map-data.service';
+import {MapData, MapDataService} from '@core/map-data.service';
 import { AngularFirestore } from 'angularfire2/firestore';
 import 'rxjs/add/operator/do';
 
