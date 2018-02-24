@@ -57,6 +57,9 @@
       <h3 mat-subheader matTooltip="Link accounts to view private photos" [matTooltipPosition]="navTooltipPosition">
         Connect
       </h3>
+      <mat-list-item (click)="loginWithGoogle()">
+        <span mat-line>Google</span>
+      </mat-list-item>
       <mat-list-item *ngFor="let filter of filters">
         <i matListAvatar class="fab {{ filter.icon }} fa-2x"></i><a mat-line>{{ filter.name }}</a>
       </mat-list-item>

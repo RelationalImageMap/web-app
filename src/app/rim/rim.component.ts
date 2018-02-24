@@ -1,13 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import * as ol from 'openlayers';
+import {MapData, MapDataService} from '../shared/map-data.service';
+import { AngularFirestore } from 'angularfire2/firestore';
+import 'rxjs/add/operator/do';
 
 let map: ol.Map;
-const iconFeature: ol.Feature[] = [];
 let vectorSource: ol.source.Vector;
 let vectorLayer: ol.layer.Vector;
+const iconFeature: ol.Feature[] = [];
 const coord: number[] = [0, 0];
-const feat = new ol.Feature();
-const accFeat = new ol.Feature();
+const geoLoc = new ol.Feature();
+const geoLocAcc = new ol.Feature();
 const view = new ol.View({
   center: ol.proj.fromLonLat([-98.583333, 39.833333]), // Continental US geographical center
   zoom: 5,
@@ -15,6 +18,18 @@ const view = new ol.View({
   maxZoom: 20
 });
 const geo = new ol.Geolocation({projection: view.getProjection()});
+const pointStyle = new ol.style.Style({
+  image: new ol.style.Circle({
+    radius: 6,
+    fill: new ol.style.Fill({
+      color: '#3399CC'
+    }),
+    stroke: new ol.style.Stroke({
+      color: '#fff',
+      width: 2
+    })
+  })
+});
 
 
 @Component({
@@ -31,37 +46,47 @@ export class RimComponent implements OnInit {
   mapTile: ol.source.Tile;
   mapType = 'AerialWithLabels';
 
-  constructor() {
-  }
+  constructor(public prov: MapDataService) { }
 
-  static displayCoord() {
+  static displayCoord(): void {
     const tCoord = geo.getPosition();
     coord[0] = tCoord[0];
     coord[1] = tCoord[1];
     map.getView().animate({center: tCoord, zoom: 19});
-    feat.setId(1);
-    feat.setGeometry(new ol.geom.Point(tCoord));
+    geoLoc.setId(1);
+    geoLoc.setGeometry(new ol.geom.Point(tCoord));
+  }
+
+  static getPoint(point: number[]): [number, number] {
+    return [point[0], point[1]];
+  }
+
+  static displayData(points: MapData[]): void {
+    const feats: ol.Feature[] = [];
+    points.forEach(point => {
+      const index = feats.push(new ol.Feature({
+        geometry: new ol.geom.Point(RimComponent.getPoint(
+          ol.proj.fromLonLat([point.geo.longitude, point.geo.latitude])
+        ))
+      }));
+      feats[index - 1].setStyle(pointStyle);
+      feats[index - 1].setId(point.id);
+    });
+    vectorSource.addFeatures(feats);
   }
 
   ngOnInit() {
 
-    feat.setStyle(new ol.style.Style({
-      image: new ol.style.Circle({
-        radius: 6,
-        fill: new ol.style.Fill({
-          color: '#3399CC'
-        }),
-        stroke: new ol.style.Stroke({
-          color: '#fff',
-          width: 2
-        })
-      })
-    }));
+    geoLoc.setStyle(pointStyle);
+
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      console.log(pos);
+    });
 
     geo.setTracking(true);
     geo.on('change', RimComponent.displayCoord);
     geo.on('change:accuracyGeometry', function() {
-      accFeat.setGeometry(geo.getAccuracyGeometry());
+      geoLocAcc.setGeometry(geo.getAccuracyGeometry());
     });
 
     const iconStyle = new ol.style.Style({
@@ -108,8 +133,11 @@ export class RimComponent implements OnInit {
       view: view
     });
 
-    vectorSource.addFeature(feat);
-    vectorSource.addFeature(accFeat);
+    vectorSource.addFeature(geoLoc);
+    vectorSource.addFeature(geoLocAcc);
+    this.prov.itemCollection = this.prov.getStorage().collection<MapData>('tester');
+    this.prov.items = this.prov.itemCollection.valueChanges();
+    this.prov.items.do(RimComponent.displayData).subscribe();
   }
 }
 

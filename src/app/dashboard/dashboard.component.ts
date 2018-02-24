@@ -2,6 +2,8 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from '@angular/material';
 import {Search, Convert, Options, SearchLOC, SearchTime} from '../search';
 import {timestamp} from 'rxjs/operators';
+import { AuthService } from '../shared/auth.service';
+import { MapDataService } from '../shared/map-data.service';
 import searchToJson = Convert.searchToJson;
 
 const SMALL_WIDTH_BREAKPOINT = 720;
@@ -15,6 +17,7 @@ export class DashboardComponent implements OnInit {
 
   private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
   navTooltipPosition = 'right';
+  user = null;
 
   @Input() search: Search;
   @ViewChild(MatMenuTrigger) filterTrigger: MatMenuTrigger;
@@ -31,17 +34,21 @@ export class DashboardComponent implements OnInit {
     console.log(timestamp() + ': ', searchToJson(this.search));
   }
 
-  constructor() {
-  }
+  constructor(private auth: AuthService, public prov: MapDataService) { }
 
   ngOnInit() {
     for (let i = 1; i <= 5; i++) {
       this.options.push({ name: `Option ${i}` });
     }
+    this.auth.getAuthState().subscribe((user) => this.user = user);
   }
 
   isScreenSmall(): boolean {
     return this.mediaMatcher.matches;
+  }
+
+  loginWithGoogle(): void {
+    this.auth.loginWithGoogle();
   }
 
 }
