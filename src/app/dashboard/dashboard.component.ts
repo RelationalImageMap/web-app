@@ -3,7 +3,6 @@ import {MatMenuTrigger} from '@angular/material';
 import {Search, Convert, Options, SearchLOC, SearchTime} from '../search';
 import {timestamp} from 'rxjs/operators';
 import { AuthService } from '@core/auth.service';
-import { MapDataService } from '@core/map-data.service';
 import searchToJson = Convert.searchToJson;
 
 const SMALL_WIDTH_BREAKPOINT = 720;
@@ -34,7 +33,7 @@ export class DashboardComponent implements OnInit {
     console.log(timestamp() + ': ', searchToJson(this.search));
   }
 
-  constructor(private auth: AuthService, public prov: MapDataService) { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
     for (let i = 1; i <= 5; i++) {

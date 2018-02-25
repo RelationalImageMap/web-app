@@ -9,8 +9,6 @@ import {MaterialDesignModule} from './material-design/material-design.module';
 import 'hammerjs';
 import { RimComponent } from './rim/rim.component';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '@environments/environment';
 import { CoreModule } from '@core/core.module';
 
@@ -25,8 +23,6 @@ import { CoreModule } from '@core/core.module';
     BrowserModule,
     MaterialDesignModule,
     AngularFireModule.initializeApp(environment.firebase, 'test_proj'),
-    AngularFirestoreModule.enablePersistence(),
-    AngularFireAuthModule,
     CoreModule
   ],
   bootstrap: [AppComponent]

@@ -1,11 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthService } from './auth.service';
-import { MapDataService } from './map-data.service';
+import { FirestoreService } from '@core/firestore.service';
 
 @NgModule({
-  imports: [ CommonModule ],
+  imports: [
+    CommonModule,
+    AngularFirestoreModule.enablePersistence(),
+    AngularFireAuthModule,
+  ],
   declarations: [],
-  providers: [ AuthService, MapDataService ]
+  providers: [ AuthService, FirestoreService ]
 })
 export class CoreModule { }

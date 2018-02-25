@@ -1,7 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as ol from 'openlayers';
-import {MapData, MapDataService} from '@core/map-data.service';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { MapData } from '../map-data';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+  AngularFirestoreDocument  } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
+import { FirestoreService } from '@core/firestore.service';
 import 'rxjs/add/operator/do';
 
 let map: ol.Map;
@@ -40,13 +45,15 @@ const pointStyle = new ol.style.Style({
 
 export class RimComponent implements OnInit {
 
+  ref: AngularFirestoreCollection<MapData>;
+  items: Observable<MapData[]>;
 
   bing: ol.source.Tile;
   osm: ol.source.Tile = new ol.source.OSM();
   mapTile: ol.source.Tile;
   mapType = 'AerialWithLabels';
 
-  constructor(public prov: MapDataService) { }
+  constructor(public db: FirestoreService) { }
 
   static displayCoord(): void {
     const tCoord = geo.getPosition();
@@ -78,10 +85,6 @@ export class RimComponent implements OnInit {
   ngOnInit() {
 
     geoLoc.setStyle(pointStyle);
-
-    navigator.geolocation.getCurrentPosition(function(pos) {
-      console.log(pos);
-    });
 
     geo.setTracking(true);
     geo.on('change', RimComponent.displayCoord);
@@ -135,9 +138,9 @@ export class RimComponent implements OnInit {
 
     vectorSource.addFeature(geoLoc);
     vectorSource.addFeature(geoLocAcc);
-    this.prov.itemCollection = this.prov.getStorage().collection<MapData>('tester');
-    this.prov.items = this.prov.itemCollection.valueChanges();
-    this.prov.items.do(RimComponent.displayData).subscribe();
+
+    this.items = this.db.colWithIds$('tester');
+    this.items.do(RimComponent.displayData).subscribe();
   }
 }
 
