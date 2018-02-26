@@ -1,34 +1,60 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
-import * as firebase from 'firebase/app';
+import { auth } from 'firebase/app';
+import { User, AuthProvider, UserCredential } from '@firebase/auth-types';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFirestoreDocument } from 'angularfire2/firestore';
+import { FirestoreService } from '@core/firestore.service';
+
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+
+interface CustomUser {
+  uid:            string;
+  email:          string;
+  photoURL?:      string;
+  displayName?:   string;
+}
 
 @Injectable()
 export class AuthService {
 
-  private authState: Observable<firebase.User>;
-  private currentUser: firebase.User = null;
+  user: Observable<CustomUser>;
 
-  constructor(public afAuth: AngularFireAuth) {
-    this.authState = this.afAuth.authState;
-    this.authState.subscribe(user => {
+  constructor(private afAuth: AngularFireAuth,
+              private st: FirestoreService) {
+
+    this.user = this.afAuth.authState.switchMap((user: User) => {
       if (user) {
-        this.currentUser = user;
+        return this.st.doc$<CustomUser>(`users/${user.uid}`);
       } else {
-        this.currentUser = null;
+        return Observable.of(null);
       }
     });
   }
 
-  getAuthState() {
-    return this.authState;
+  googleLogin(): Promise<void> {
+    const provider = new auth.GoogleAuthProvider();
+    return this.oAuthLogin(provider);
   }
 
-  loginWithGoogle() {
-    return this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+  private oAuthLogin(provider: AuthProvider): Promise<void> {
+    return this.afAuth.auth.signInWithPopup(provider)
+      .then((credential: UserCredential) => {
+        this.updateUserData(credential.user);
+      });
+  }
+
+  private updateUserData(user: User): Promise<void> {
+    const userRef: AngularFirestoreDocument<CustomUser> =
+                    this.st.doc<CustomUser>(`users/${user.uid}`);
+    const data: CustomUser = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL
+    };
+    return userRef.set(data, { merge: true });
   }
 
 }

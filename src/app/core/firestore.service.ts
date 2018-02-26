@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
-  AngularFirestoreCollection } from 'angularfire2/firestore';
+  AngularFirestoreCollection,
+  DocumentChangeAction } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 
 type CollectionPredicate<T> = string | AngularFirestoreCollection<T>;
@@ -22,24 +23,21 @@ export class FirestoreService {
   }
 
   col$<T>(ref: CollectionPredicate<T>, queryFn?): Observable<T[]> {
-    return this.col(ref, queryFn).snapshotChanges().map(docs => {
-      return docs.map(a => a.payload.doc.data()) as T[];
-    });
+    return this.col(ref, queryFn).valueChanges();
   }
 
   doc$<T>(ref: DocPredicate<T>): Observable<T> {
-    return this.doc(ref).snapshotChanges().map(doc => {
-      return doc.payload.data() as T;
-    });
+    return this.doc(ref).valueChanges();
   }
 
   colWithIds$<T>(ref: CollectionPredicate<T>, queryFn?): Observable<any[]> {
-    return this.col(ref, queryFn).snapshotChanges().map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data();
-        const id = a.payload.doc.id;
-        return { id, ...data };
-      });
+    return this.col(ref, queryFn).snapshotChanges().map(
+      (actions: DocumentChangeAction[]) => {
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
     });
   }
 

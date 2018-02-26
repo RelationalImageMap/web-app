@@ -14,7 +14,8 @@ const SMALL_WIDTH_BREAKPOINT = 720;
 })
 export class DashboardComponent implements OnInit {
 
-  private mediaMatcher: MediaQueryList = matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
+  private mediaMatcher: MediaQueryList =
+                        matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
   navTooltipPosition = 'right';
   user = null;
 
@@ -39,7 +40,6 @@ export class DashboardComponent implements OnInit {
     for (let i = 1; i <= 5; i++) {
       this.options.push({ name: `Option ${i}` });
     }
-    this.auth.getAuthState().subscribe((user) => this.user = user);
   }
 
   isScreenSmall(): boolean {
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loginWithGoogle(): void {
-    this.auth.loginWithGoogle();
+    this.auth.googleLogin();
   }
 
 }
