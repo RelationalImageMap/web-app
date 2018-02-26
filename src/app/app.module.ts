@@ -6,7 +6,6 @@ import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {MaterialDesignModule} from './material-design/material-design.module';
 
-import 'hammerjs';
 import { RimComponent } from './rim/rim.component';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '@environments/environment';

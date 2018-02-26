@@ -40,7 +40,7 @@ const pointStyle = new ol.style.Style({
 @Component({
   selector: 'app-rim',
   templateUrl: './rim.component.html',
-  styleUrls: ['./rim.component.css']
+  styleUrls: ['./rim.component.scss']
 })
 
 export class RimComponent implements OnInit {
