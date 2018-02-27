@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
+import { DocumentData } from '@firebase/firestore-types';
 import {
   AngularFirestore,
-  AngularFirestoreDocument,
   AngularFirestoreCollection,
-  DocumentChangeAction } from 'angularfire2/firestore';
+  AngularFirestoreDocument,
+  DocumentChangeAction,
+  QueryFn } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 
 type CollectionPredicate<T> = string | AngularFirestoreCollection<T>;
 type DocPredicate<T>        = string | AngularFirestoreDocument<T>;
 
-  @Injectable()
+@Injectable()
 export class FirestoreService {
 
   constructor(private afs: AngularFirestore) { }
 
-  col<T>(ref: CollectionPredicate<T>, queryFn?): AngularFirestoreCollection<T> {
+  col<T>(ref: CollectionPredicate<T>, queryFn?: QueryFn): AngularFirestoreCollection<T> {
     return typeof ref === 'string' ? this.afs.collection<T>(ref, queryFn) : ref;
   }
 
@@ -22,7 +24,7 @@ export class FirestoreService {
     return typeof ref === 'string' ? this.afs.doc<T>(ref) : ref;
   }
 
-  col$<T>(ref: CollectionPredicate<T>, queryFn?): Observable<T[]> {
+  col$<T>(ref: CollectionPredicate<T>, queryFn?: QueryFn): Observable<T[]> {
     return this.col(ref, queryFn).valueChanges();
   }
 
@@ -30,12 +32,12 @@ export class FirestoreService {
     return this.doc(ref).valueChanges();
   }
 
-  colWithIds$<T>(ref: CollectionPredicate<T>, queryFn?): Observable<any[]> {
+  colWithIds$<T>(ref: CollectionPredicate<T>, queryFn?: QueryFn): Observable<any[]> {
     return this.col(ref, queryFn).snapshotChanges().map(
       (actions: DocumentChangeAction[]) => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
+        return actions.map((a: DocumentChangeAction) => {
+          const data: DocumentData = a.payload.doc.data();
+          const id: string = a.payload.doc.id;
           return { id, ...data };
         });
     });

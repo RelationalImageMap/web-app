@@ -1,11 +1,11 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MatMenuTrigger} from '@angular/material';
-import {Search, Convert, Options, SearchLOC, SearchTime} from '../search';
-import {timestamp} from 'rxjs/operators';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material';
 import { AuthService } from '@core/auth.service';
+import { timestamp } from 'rxjs/operators';
+import { Convert, Options, Search, SearchLOC, SearchTime } from '../search';
 import searchToJson = Convert.searchToJson;
 
-const SMALL_WIDTH_BREAKPOINT = 720;
+const SMALL_WIDTH_BREAKPOINT: number = 720;
 
 @Component({
   selector: 'app-dashboard',
@@ -16,16 +16,17 @@ export class DashboardComponent implements OnInit {
 
   private mediaMatcher: MediaQueryList =
                         matchMedia(`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`);
-  navTooltipPosition = 'right';
-  user = null;
+  navTooltipPosition: string = 'right';
+  user: any = null;
 
   @Input() search: Search;
   @ViewChild(MatMenuTrigger) filterTrigger: MatMenuTrigger;
 
   filters: FilterItem[] = [
-    {name: 'Facebook', checked: true, icon: 'fa-facebook'},
+    {name: 'Google',    checked: true, icon: 'fa-google'},
+    {name: 'Facebook',  checked: true, icon: 'fa-facebook'},
     {name: 'Instagram', checked: true, icon: 'fa-instagram'},
-    {name: 'Twitter', checked: true, icon: 'fa-twitter'}
+    {name: 'Twitter',   checked: true, icon: 'fa-twitter'}
   ];
 
   options: OptionItem[] = [];
@@ -36,8 +37,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(private auth: AuthService) { }
 
-  ngOnInit() {
-    for (let i = 1; i <= 5; i++) {
+  ngOnInit(): void {
+    for (let i: number = 1; i <= 5; i++) {
       this.options.push({ name: `Option ${i}` });
     }
   }
@@ -46,16 +47,26 @@ export class DashboardComponent implements OnInit {
     return this.mediaMatcher.matches;
   }
 
-  loginWithGoogle(): void {
-    this.auth.googleLogin();
+  loginWith(prov: string): void {
+    if ('google' === prov.toLowerCase()) {
+      this.auth.googleLogin();
+    } else if ('facebook' === prov.toLowerCase()) {
+      this.auth.facebookLogin();
+    } else if ('instagram' === prov.toLowerCase()) {
+      this.auth.instagramLogin();
+    } else if ('twitter' === prov.toLowerCase()) {
+      this.auth.twitterLogin();
+    } else {
+      console.log('Error: not a provider');
+    }
   }
 
 }
 
 interface FilterItem {
-  name: string;
-  checked: boolean;
-  icon: string;
+  name:     string;
+  checked:  boolean;
+  icon:     string;
 }
 
 interface OptionItem {

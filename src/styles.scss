@@ -8,11 +8,11 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
-$light-primary: mat-palette($mat-blue, A400);
+$light-primary: mat-palette($mat-blue, A700);
 $light-accent:  mat-palette($mat-red, 600, 500, 800);
 $light-warn:    mat-palette($mat-red);
 
-$dark-primary: mat-palette($mat-blue, A700);
+$dark-primary: mat-palette($mat-blue, 800);
 $dark-accent:  mat-palette($mat-red, 400, 300, 600);
 $dark-warn:    mat-palette($mat-red);
 

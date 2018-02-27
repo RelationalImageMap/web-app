@@ -1,19 +1,28 @@
 import { Injectable } from '@angular/core';
 
-import { auth } from 'firebase/app';
-import { User, AuthProvider, UserCredential } from '@firebase/auth-types';
+import { FirestoreService } from '@core/firestore.service';
+import {
+  AuthProvider,
+  FacebookAuthProvider,
+  GoogleAuthProvider,
+  TwitterAuthProvider,
+  User,
+  UserCredential } from '@firebase/auth-types';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestoreDocument } from 'angularfire2/firestore';
-import { FirestoreService } from '@core/firestore.service';
+import { auth } from 'firebase/app';
 
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
 
 interface CustomUser {
   uid:            string;
   email:          string;
   photoURL?:      string;
   displayName?:   string;
+  facebookToken?: string;
+  instaToken?:    string;
+  twitterToken?:  string;
 }
 
 @Injectable()
@@ -34,7 +43,22 @@ export class AuthService {
   }
 
   googleLogin(): Promise<void> {
-    const provider = new auth.GoogleAuthProvider();
+    const provider: GoogleAuthProvider = new auth.GoogleAuthProvider();
+    return this.oAuthLogin(provider);
+  }
+
+  facebookLogin(): Promise<void> {
+    const provider: FacebookAuthProvider = new auth.FacebookAuthProvider();
+    return this.oAuthLogin(provider);
+  }
+
+  instagramLogin(): Promise<void> {
+    const provider: FacebookAuthProvider = new auth.FacebookAuthProvider();
+    return this.oAuthLogin(provider);
+  }
+
+  twitterLogin(): Promise<void> {
+    const provider: TwitterAuthProvider = new auth.TwitterAuthProvider();
     return this.oAuthLogin(provider);
   }
 
