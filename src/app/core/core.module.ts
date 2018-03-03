@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AuthService } from './auth.service';
+import { NgModule } from '@angular/core';
 import { FirestoreService } from '@core/firestore.service';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AuthService } from './auth.service';
 
 @NgModule({
   imports: [

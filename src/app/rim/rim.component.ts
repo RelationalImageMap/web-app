@@ -1,29 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import * as ol from 'openlayers';
-import { MapData } from '../map-data';
+import { FirestoreService } from '@core/firestore.service';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
   AngularFirestoreDocument  } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
-import { FirestoreService } from '@core/firestore.service';
+import * as ol from 'openlayers';
 import 'rxjs/add/operator/do';
+import { Observable } from 'rxjs/Observable';
+import { MapData } from '../map-data';
 
 let map: ol.Map;
 let vectorSource: ol.source.Vector;
 let vectorLayer: ol.layer.Vector;
 const iconFeature: ol.Feature[] = [];
 const coord: number[] = [0, 0];
-const geoLoc = new ol.Feature();
-const geoLocAcc = new ol.Feature();
-const view = new ol.View({
+const geoLoc: ol.Feature = new ol.Feature();
+const geoLocAcc: ol.Feature = new ol.Feature();
+const view: ol.View = new ol.View({
   center: ol.proj.fromLonLat([-98.583333, 39.833333]), // Continental US geographical center
   zoom: 5,
   minZoom: 2,
   maxZoom: 20
 });
-const geo = new ol.Geolocation({projection: view.getProjection()});
-const pointStyle = new ol.style.Style({
+const geo: ol.Geolocation = new ol.Geolocation({projection: view.getProjection()});
+const pointStyle: ol.style.Style = new ol.style.Style({
   image: new ol.style.Circle({
     radius: 6,
     fill: new ol.style.Fill({
@@ -51,12 +51,12 @@ export class RimComponent implements OnInit {
   bing: ol.source.Tile;
   osm: ol.source.Tile = new ol.source.OSM();
   mapTile: ol.source.Tile;
-  mapType = 'AerialWithLabels';
+  mapType: string = 'AerialWithLabels';
 
   constructor(public db: FirestoreService) { }
 
   static displayCoord(): void {
-    const tCoord = geo.getPosition();
+    const tCoord: ol.Coordinate = geo.getPosition();
     coord[0] = tCoord[0];
     coord[1] = tCoord[1];
     map.getView().animate({center: tCoord, zoom: 19});
@@ -70,8 +70,8 @@ export class RimComponent implements OnInit {
 
   static displayData(points: MapData[]): void {
     const feats: ol.Feature[] = [];
-    points.forEach(point => {
-      const index = feats.push(new ol.Feature({
+    points.forEach((point: MapData) => {
+      const index: number = feats.push(new ol.Feature({
         geometry: new ol.geom.Point(RimComponent.getPoint(
           ol.proj.fromLonLat([point.geo.longitude, point.geo.latitude])
         ))
@@ -82,17 +82,17 @@ export class RimComponent implements OnInit {
     vectorSource.addFeatures(feats);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
 
     geoLoc.setStyle(pointStyle);
 
     geo.setTracking(true);
     geo.on('change', RimComponent.displayCoord);
-    geo.on('change:accuracyGeometry', function() {
+    geo.on('change:accuracyGeometry', () => {
       geoLocAcc.setGeometry(geo.getAccuracyGeometry());
     });
 
-    const iconStyle = new ol.style.Style({
+    const iconStyle: ol.style.Style = new ol.style.Style({
       image: new ol.style.Icon({
         size: [75, 130],
         offset: [30, 0],
@@ -145,7 +145,7 @@ export class RimComponent implements OnInit {
 }
 
 // Switch between OpenStreetMap and Bing Maps
-export function changeMapSource(tileSet: string) {
+export function changeMapSource(tileSet: string): void {
   if (tileSet === 'osm') {
     this.mapTile = this.osm;
   } else if (tileSet === 'bing') {
@@ -154,7 +154,7 @@ export function changeMapSource(tileSet: string) {
 }
 
 // Switch views in Bing Maps
-export function changeMapType(typeSet: string) {
+export function changeMapType(typeSet: string): void {
   if (typeSet === 'aerial') {
     this.mapType = 'AerialWithLabels';
   } else if (typeSet === 'road') {
