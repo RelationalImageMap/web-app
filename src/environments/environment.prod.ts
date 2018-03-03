@@ -1,11 +1,11 @@
 export const environment: any = {
   production: true,
   firebase: {
-    apiKey: 'AIzaSyB_P9wXWeK9o0E8k5P5_3MOh3doixOxMxQ',
-    authDomain: 'test-project-79c3c.firebaseapp.com',
-    databaseURL: 'https://test-project-79c3c.firebaseio.com',
-    projectId: 'test-project-79c3c',
-    storageBucket: 'test-project-79c3c.appspot.com',
-    messagingSenderId: '1065504284693'
+    apiKey: 'AIzaSyCQjwx9ZU8LEtUrrsoiJ69RTprvnlplBKk',
+    authDomain: 'relational-image-map-dev.firebaseapp.com',
+    databaseURL: 'https://relational-image-map-dev.firebaseio.com',
+    projectId: 'relational-image-map-dev',
+    storageBucket: 'relational-image-map-dev.appspot.com',
+    messagingSenderId: '453965883992'
   }
 };
