@@ -1,5 +1,6 @@
 {
   "projects": {
-    "dev": "relational-image-map-dev"
+    "dev": "relational-image-map-dev",
+    "prod": "relational-image-map-prod"
   }
 }

@@ -4,15 +4,12 @@
   "license": "MIT",
   "main": "main.js",
   "scripts": {
-    "prod": "ng build --prod --output-path=../public",
-    "dev": "ng build --output-path=../public-dev",
+    "serve-prod": "ng build --prod && firebase use prod && firebase deploy --firestore,hosting",
+    "serve-dev": "ng build --output-path=./dist-dev && firebase use dev && firebase deploy --only firestore,hosting -p ./dist-dev",
     "start": "ng serve",
-    "ol-build": "node node_modules/openlayers/tasks/build.js ol-custom.json src/assets/js/ol-custom.js",
-    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "ng": "ng",
     "electron": "electron .",
     "electron-build": "ng build --prod && electron ."
   },
