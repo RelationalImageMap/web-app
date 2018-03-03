@@ -4725,6 +4725,10 @@ loglevel@^1.4.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.1.tgz#e0fc95133b6ef276cdc8887cdaf24aa6f156f8fa"
 
+logrocket@^0.6.9:
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/logrocket/-/logrocket-0.6.9.tgz#c05b4ba8206318541f236a4470440d37d369a06f"
+
 long@~3:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/long/-/long-3.2.0.tgz#d821b7138ca1cb581c172990ef14db200b5c474b"

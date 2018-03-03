@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
-import { AuthService } from '@core/auth.service';
+import { AuthService, CustomUser } from '@core/auth.service';
 import { timestamp } from 'rxjs/operators';
 import { Convert, Options, Search, SearchLOC, SearchTime } from '../search';
 import searchToJson = Convert.searchToJson;

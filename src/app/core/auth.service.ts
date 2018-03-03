@@ -15,7 +15,7 @@ import { auth } from 'firebase/app';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 
-interface CustomUser {
+export interface CustomUser {
   uid:            string;
   email:          string;
   photoURL?:      string;
@@ -28,18 +28,24 @@ interface CustomUser {
 @Injectable()
 export class AuthService {
 
-  user: Observable<CustomUser>;
+  userObservable: Observable<CustomUser>;
+  currentUser: CustomUser;
 
   constructor(private afAuth: AngularFireAuth,
               private st: FirestoreService) {
 
-    this.user = this.afAuth.authState.switchMap((user: User) => {
+    this.userObservable = this.afAuth.authState.switchMap((user: User) => {
       if (user) {
         return this.st.doc$<CustomUser>(`users/${user.uid}`);
       } else {
         return Observable.of(null);
       }
     });
+
+    this.userObservable.do((cu: CustomUser) => {
+      this.currentUser = cu;
+      console.log(`UID: ${this.currentUser.uid}`);
+    }).subscribe();
   }
 
   googleLogin(): Promise<void> {
