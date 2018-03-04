@@ -4,6 +4,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
   AngularFirestoreDocument  } from 'angularfire2/firestore';
+import * as popup from 'ol-popup';
 import * as ol from 'openlayers';
 import 'rxjs/add/operator/do';
 import { Observable } from 'rxjs/Observable';

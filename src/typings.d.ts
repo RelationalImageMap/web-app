@@ -1,5 +1,7 @@
 /* SystemJS module definition */
-declare var module: NodeModule;
+declare var nodeModule: NodeModule;
 interface NodeModule {
   id: string;
 }
+
+declare module 'ol-popup'
