@@ -44,7 +44,6 @@ export class AuthService {
 
     this.userObservable.do((cu: CustomUser) => {
       this.currentUser = cu;
-      console.log(`UID: ${this.currentUser.uid}`);
     }).subscribe();
   }
 

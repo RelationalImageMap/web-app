@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { AuthService, CustomUser } from '@core/auth.service';
 import { timestamp } from 'rxjs/operators';
+import { SearchService } from '../core/search.service';
 import { Convert, Options, Search, SearchLOC, SearchTime } from '../search';
 import searchToJson = Convert.searchToJson;
 
@@ -35,12 +36,28 @@ export class DashboardComponent implements OnInit {
     console.log(timestamp() + ': ', searchToJson(this.search));
   }
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private searchServe: SearchService) { }
 
   ngOnInit(): void {
     for (let i: number = 1; i <= 5; i++) {
       this.options.push({ name: `Option ${i}` });
     }
+
+    this.searchServe.sendSearch({
+      query: 'test string',
+      options: {
+        privateSearch: false,
+        searchLoc: {
+          lat: 39.01,
+          long: -84.51,
+          radius: 10
+        },
+        searchTime: {
+          start: 100000001,
+          end: 1000000000003
+        }
+      }
+    });
   }
 
   isScreenSmall(): boolean {

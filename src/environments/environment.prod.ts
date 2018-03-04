@@ -7,5 +7,8 @@ export const environment: any = {
     projectId: 'relational-image-map-dev',
     storageBucket: 'relational-image-map-dev.appspot.com',
     messagingSenderId: '453965883992'
+  },
+  appEngine: {
+    search: 'search.relational-image-map-prod.appspot.com'
   }
 };
