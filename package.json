@@ -16,6 +16,8 @@
   "private": true,
   "dependencies": {
     "@agm/core": "^1.0.0-beta.2",
+    "@agm/js-marker-clusterer": "^1.0.0-beta.2",
+    "@agm/snazzy-info-window": "^1.0.0-beta.2",
     "@angular/animations": "^5.2.4",
     "@angular/cdk": "^5.2.1",
     "@angular/common": "^5.2.4",

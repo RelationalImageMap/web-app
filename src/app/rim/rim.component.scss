@@ -1,5 +1,12 @@
-agm-map {
-  height: 100vh;
-  width: 100vw;
+agm-map, .mapContainer {
+  height: 100%;
+  width: 100%;
 }
 
+.widthSet {
+  max-width: 100px;
+}
+
+.heightSet {
+  max-height: 100px;
+}

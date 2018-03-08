@@ -1,12 +1,11 @@
-<div *ngIf="lat && lng">
+<div *ngIf="lat && lng" class="mapContainer">
 
-  <agm-map [latitude]="lat" [longitude]="lng">
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="17">
 
     <agm-marker [latitude]="lat" [longitude]="lng">
 
-      <agm-info-window>
-        <h3><strong>Howdy!</strong></h3>
-        <p>You are here!</p>
+      <agm-info-window [isOpen]="true">
+        <img src="https://picsum.photos/200/300/?random" class="widthSet heightSet">
       </agm-info-window>
 
     </agm-marker>
