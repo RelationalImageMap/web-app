@@ -15,5 +15,6 @@ export const environment: any = {
   },
   appEngine: {
     search: 'search.relational-image-map-dev.appspot.com'
-  }
+  },
+  googleMapsKey: 'AIzaSyBBDkyP3RXebHeSh5p9z7R1WUR-XtDFBUg'
 };
