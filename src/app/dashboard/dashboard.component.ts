@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material';
 import { AuthService, CustomUser } from '@core/auth.service';
-import searchToJson = Convert.searchToJson;
 import { timestamp } from 'rxjs/operators';
 import { SearchService } from '../core/search.service';
 import { Convert, Options, Search, SearchLOC, SearchTime } from '../search';
+import searchToJson = Convert.searchToJson;
 
 const SMALL_WIDTH_BREAKPOINT: number = 720;
 
@@ -39,6 +39,7 @@ export class DashboardComponent implements OnInit {
   constructor(private auth: AuthService, private searchServe: SearchService) { }
 
   ngOnInit(): void {
+
     for (let i: number = 1; i <= 5; i++) {
       this.options.push({ name: `Option ${i}` });
     }
