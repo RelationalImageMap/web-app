@@ -1,6 +1,6 @@
 <div *ngIf="lat && lng" class="mapContainer">
 
-  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="17">
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="17" [fullscreenControl]=true [streetViewControl]=false>
 
     <agm-marker [latitude]="lat" [longitude]="lng">
       <agm-info-window>
