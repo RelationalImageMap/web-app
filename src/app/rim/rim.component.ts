@@ -16,8 +16,8 @@ import { MapData } from '../map-data';
 
 export class RimComponent implements OnInit {
 
-  // ref: AngularFirestoreCollection<MapData>;
-  // items: Observable<MapData[]>;
+  ref: AngularFirestoreCollection<MapData>;
+  items: Observable<MapData[]>;
 
   lat: number = 39.833333;
   lng: number = -98.583333;
@@ -38,15 +38,15 @@ export class RimComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.getUserLocation();
+    this.trackUserLocation();
 
-    // this.items = this.db.colWithIds$('tester');
+    this.items = this.db.colWithIds$('tester');
     // this.items.do(RimComponent.displayData).subscribe();
   }
 
-  private getUserLocation(): void {
+  private trackUserLocation(): void {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos: Position) => {
+      navigator.geolocation.watchPosition((pos: Position) => {
         this.lat = pos.coords.latitude;
         this.lng = pos.coords.longitude;
       });

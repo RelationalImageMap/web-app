@@ -1,9 +1,24 @@
+.dash {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.top-toolbar {
+  height: 6.5%;
+}
+
+.container {
+  height: 93.5%;
+}
+
 #navButtonSpacer {
   width: 0.75em;
 }
 
 .search-bar {
-  flex: 1 1 auto;
+  flex: auto;
 }
 
 .search-space {
@@ -16,14 +31,6 @@
 
 .search-bar input {
   border-bottom-color: white;
-}
-
-mat-sidenav-container {
-  flex: 1 1 auto;
-  height: 93.7vh;
-  flex-direction: column;
-  display: flex;
-  overflow-y: auto;
 }
 
 a {

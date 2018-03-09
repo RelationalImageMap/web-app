@@ -21,10 +21,8 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
 @include angular-material-theme($light-theme);
 
-body {
+html, body, app-root {
   margin: 0;
-}
-
-.ol-rotate {
-  top: 3em;
+  height: 100%;
+  width: 100%;
 }

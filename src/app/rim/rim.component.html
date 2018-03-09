@@ -3,11 +3,16 @@
   <agm-map [latitude]="lat" [longitude]="lng" [zoom]="17">
 
     <agm-marker [latitude]="lat" [longitude]="lng">
-
-      <agm-info-window [isOpen]="true">
-        <img src="https://picsum.photos/200/300/?random" class="widthSet heightSet">
+      <agm-info-window>
+        <h3>User Location</h3>>
       </agm-info-window>
+    </agm-marker>
 
+    <agm-marker *ngFor="let item of items | async as list"
+                [latitude]="item.geo.latitude" [longitude]="item.geo.longitude">
+      <agm-info-window>
+        <img src="{{ item.imageUrl }}" class="widthSet heightSet">
+      </agm-info-window>
     </agm-marker>
 
   </agm-map>
