@@ -27,6 +27,7 @@
       "environmentSource": "environments/environment.ts",
       "environments": {
         "ngrok": "environments/environment.ngrok.ts",
+        "ngrok-prod": "environments/environment.ngrok.prod.ts",
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }
